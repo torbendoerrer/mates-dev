@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'firebase_options.dart';
+import 'pages/home_screen.dart'; // Importieren des HomeScreens
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,42 +17,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Firestore Demo',
+      title: 'Mates',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
         useMaterial3: true,
       ),
-      home: const MyFirestorePage(),
-    );
-  }
-}
-
-class MyFirestorePage extends StatelessWidget {
-  const MyFirestorePage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Firestore Demo'),
-      ),
-      body: Center(
-        child: FutureBuilder<DocumentSnapshot>(
-          future: FirebaseFirestore.instance.collection('default').doc('Namen').get(),
-          builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const CircularProgressIndicator();
-            } else if (snapshot.hasError) {
-              return Text("Fehler: ${snapshot.error}");
-            } else if (snapshot.hasData) {
-              return Text("Name: ${snapshot.data?.get('Name') ?? 'Nicht gefunden'}",
-                          style: Theme.of(context).textTheme.headline6);
-            } else {
-              return const Text('Keine Daten gefunden');
-            }
-          },
-        ),
-      ),
+      home: const HomeScreen(), // Verwenden des HomeScreens als Startseite
     );
   }
 }
