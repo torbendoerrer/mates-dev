@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "794967431556",
+    "project_id": "mates-dev-3068f",
+    "storage_bucket": "mates-dev-3068f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:794967431556:android:e11251affc1d203941e5d1",
+        "android_client_info": {
+          "package_name": "com.example.mates"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCHqiPu3CawX3RPE1aReT4glDkrmECB3zg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
