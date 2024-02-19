@@ -7,12 +7,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:go_router/go_router.dart';
 import 'pages/signup_screen.dart';
 import 'pages/home_screen.dart';
+import 'pages/signin_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  
   runApp(App());
 }
 
@@ -22,10 +24,16 @@ final GoRouter _router = GoRouter(
     GoRoute(
       path: '/',
       builder: (BuildContext context, GoRouterState state) {
-        return const SignupScreen();
+        return const SigninScreen();
       },
       routes: <RouteBase>[
         GoRoute(
+          path: 'signup',
+          builder: (BuildContext context, GoRouterState state) {
+            return const SignupScreen();
+          },
+        ),
+         GoRoute(
           path: 'home',
           builder: (BuildContext context, GoRouterState state) {
             return const HomeScreen();
