@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AuthenticationProvider with ChangeNotifier {
   final FirebaseAuth _firebaseAuth;
@@ -25,14 +26,22 @@ class AuthenticationProvider with ChangeNotifier {
     });
   }
 
-  Future<void> signUp({required String email, required String password}) async {
-    try {
-      await _firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
-      notifyListeners();
-    } on FirebaseAuthException catch (e) {
-      throw e;
+ Future<void> signUp({required String email, required String password}) async {
+  try {
+    UserCredential userCredential = await _firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
+    User? user = userCredential.user;
+    if (user != null) {
+      // Hier speichern Sie den Benutzer in Firestore
+      await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
+        'email': email,
+        'created_at': DateTime.now(),
+      });
     }
+    notifyListeners();
+  } on FirebaseAuthException catch (e) {
+    throw e;
   }
+}
 
   Future<void> signIn({required String email, required String password}) async {
     try {
