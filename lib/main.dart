@@ -1,60 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
-import 'package:provider/provider.dart';
-import 'providers/authentication_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:go_router/go_router.dart';
-import 'pages/signup_screen.dart';
-import 'pages/home_screen.dart';
-import 'pages/signin_screen.dart';
+import 'providers/routing_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-  
-  runApp(App());
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+  // Listen for Auth changes and .refresh the GoRouter [router]
+  GoRouter router = RoutingService().router;
+  FirebaseAuth.instance.authStateChanges().listen((User? user) {
+    router.refresh();
+  });
+
+  runApp(App(router: router));
 }
 
-
-final GoRouter _router = GoRouter(
-  routes: <RouteBase>[
-    GoRoute(
-      path: '/',
-      builder: (BuildContext context, GoRouterState state) {
-        return const SigninScreen();
-      },
-      routes: <RouteBase>[
-        GoRoute(
-          path: 'signup',
-          builder: (BuildContext context, GoRouterState state) {
-            return const SignupScreen();
-          },
-        ),
-         GoRoute(
-          path: 'home',
-          builder: (BuildContext context, GoRouterState state) {
-            return const HomeScreen();
-          },
-        ),
-      ],
-    ),
-  ],
-);
-
 class App extends StatelessWidget {
-  App({Key? key}) : super(key: key);
-
+  const App({super.key, required this.router});
+  final GoRouter router;
 
   @override
-  Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => AuthenticationProvider(FirebaseAuth.instance),
-      child: MaterialApp.router(
-        routerConfig: _router,
-      ),
-    );
-  }
+  Widget build(BuildContext context) => MaterialApp.router(
+        routerConfig: router,
+      );
 }
