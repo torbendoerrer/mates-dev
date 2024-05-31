@@ -55,7 +55,7 @@ Future<void> _signup(BuildContext context) async {
   try {
     await Provider.of<AuthenticationProvider>(context, listen: false)
         .signUp(email: _emailController.text, password: _passwordController.text);
-    context.go('/home'); // Stelle sicher, dass der Pfad korrekt ist
+    context.go('/home'); 
   } on Exception catch (e) {
     setState(() {
       _errorMessage = e.toString();

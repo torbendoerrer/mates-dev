@@ -47,7 +47,7 @@ class _SigninScreenState extends State<SigninScreen> {
             ),
             ElevatedButton(
   onPressed: () {
-    context.go('/signup'); // Stelle sicher, dass der Pfad korrekt ist
+    context.go('/signup'); 
   },
   child: const Text('SignUp'),
 ),
@@ -62,7 +62,7 @@ Future<void> _signin(BuildContext context) async {
   try {
     await Provider.of<AuthenticationProvider>(context, listen: false)
         .signIn(email: _emailController.text, password: _passwordController.text);
-    context.go('/home'); // Stelle sicher, dass der Pfad korrekt ist
+    context.go('/home'); 
   } on Exception catch (e) {
     setState(() {
       _errorMessage = e.toString();
