@@ -22,7 +22,7 @@ class AuthenticationProvider with ChangeNotifier {
       } else {
         print('User is signed in!');
       }
-      notifyListeners(); // Benachrichtigen Sie die Listener über eine Änderung.
+      notifyListeners();
     });
   }
 
@@ -31,7 +31,6 @@ class AuthenticationProvider with ChangeNotifier {
     UserCredential userCredential = await _firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
     User? user = userCredential.user;
     if (user != null) {
-      // Hier speichern Sie den Benutzer in Firestore
       await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
         'email': email,
         'created_at': DateTime.now(),

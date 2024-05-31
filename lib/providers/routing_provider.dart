@@ -26,7 +26,6 @@ class RoutingService {
       final bool loggingIn = state.matchedLocation == '/signIn';
       if (!loggedIn) return '/signIn';
       if (loggingIn) return '/';
-      // no need to redirect at all
       return null;
     },
   );
